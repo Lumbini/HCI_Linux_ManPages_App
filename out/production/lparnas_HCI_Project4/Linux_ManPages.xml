@@ -1,0 +1,604 @@
+<?xml version="1.0"?>
+<LinuxManPage>
+<!-- 	User Command - cmp-->
+	<page id = "cmp">
+		<Type>User</Type>
+		<Name>  cmp </Name>
+		<Usage>  cmp -- compare two files byte by byte
+			cmp [OPTION]... FILE1 [FILE2 [SKIP1 [SKIP2]]]
+		</Usage>
+		<Description> Compare two files byte by byte.
+
+			The optional SKIP1 and SKIP2 specify the number of bytes to skip
+			at the beginning of each file (zero by default).
+
+			Mandatory arguments to long options are mandatory for short
+			options too.
+
+			-b, --print-bytes
+			      print differing bytes
+
+			-i, --ignore-initial=SKIP
+			      skip first SKIP bytes of both inputs
+
+			-i, --ignore-initial=SKIP1:SKIP2
+			      skip first SKIP1 bytes of FILE1 and first SKIP2 bytes of FILE2
+
+			-l, --verbose
+			      output byte numbers and differing byte values
+
+			-n, --bytes=LIMIT
+			      compare at most LIMIT bytes
+
+			-s, --quiet, --silent
+			      suppress all normal output
+
+			--help display this help and exit
+
+			-v, --version
+			      output version information and exit
+
+			SKIP values may be followed by the following multiplicative
+			suffixes:
+			kB 1000, K 1024, MB 1,000,000, M 1,048,576,
+			GB 1,000,000,000, G1,073,741,824, and so on for T, P, E, Z, Y.
+
+			If a FILE is '-' or missing, read standard input.  Exit status is 0
+			if inputs are the same, 1 if different, 2 if trouble.		
+	   	</Description>
+		<OtherReferences> Copyright © 2012 Thomas Leonard. You may redistribute
+			copies of this program under the terms of the GNU Lesser
+			General Public License.
+		</OtherReferences>
+	</page>
+	<!-- System Calls - chmod -->
+	<page id = "chmod">
+		<Type>System</Type>
+		<Name>  chmod </Name>
+		<Usage>  chmod -- change file modes or Access Control Lists
+			chmod [-fv] [-R [-H | -L | -P]] mode file ...
+			chmod [-fv] [-R [-H | -L | -P]] [-a | +a | =a] ACE file ...
+			chmod [-fhv] [-R [-H | -L | -P]] [-E] file ...
+			chmod [-fhv] [-R [-H | -L | -P]] [-C] file ...
+			chmod [-fhv] [-R [-H | -L | -P]] [-N] file ...
+		</Usage>
+		<Description> The chmod utility modifies the file mode bits of the
+			listed files as specified by the mode operand. It may also be
+			used to modify the Access.
+
+			Control Lists (ACLs) associated with the listed files.
+
+			The generic options are as follows:
+
+			-f  Do not display a diagnostic message if chmod could not
+				modify the mode for file.
+
+			-H  If the -R option is specified, symbolic links on the command
+				line are followed.  (Symbolic links encountered in the tree
+				traversal are not followed by default.)
+
+			-h  If the file is a symbolic link, change the mode of the link
+			 	itself rather than the file that the link points to.
+
+			-L  If the -R option is specified, all symbolic links are followed.
+
+			-P  If the -R option is specified, no symbolic links are followed.
+				This is the default.
+
+			-R  Change the modes of the file hierarchies rooted in the files
+			 	instead of just the files themselves.
+
+			-v 	Cause chmod to be verbose, showing filenames as the mode
+				is modified.  If the -v flag is specified more than once,
+				the old and new modes of the file will also be printed, in
+				both octal and symbolic notation.
+
+			The -H, -L and -P options are ignored unless the -R option is
+			specified. In addition, these options override each other and
+			the command's actions are determined by the last one specified.
+
+			Only the owner of a file or the super-user is permitted to change
+			the mode of a file.
+
+		</Description>
+		<OtherReferences> chflags(1), fsaclctl(1), install(1), chmod(2), stat(2),
+			umask(2), fts(3), setmode(3), symlink(7), chown(8), mount(8),
+			sticky(8)
+		</OtherReferences>
+	</page>
+	<!-- Library Functions - abort -->
+	<page id = "abort">
+		<Type>Library</Type>
+		<Name>  abort</Name>
+		<Usage>  abort -- cause abnormal program termination
+			#include stdlib.h
+
+     		void
+     		abort(void);
+		</Usage>
+		<Description> The abort() function causes abnormal program termination to occur,
+			unless the signal SIGABRT is being caught and the signal handler
+			does not return.
+
+			Any open streams are flushed and closed.
+		</Description>
+		<OtherReferences> sigaction(2), exit(3)
+		</OtherReferences>
+	</page>
+	<!-- Devices - loop -->
+	<page id = "loop">
+		<Type>Devices</Type>
+
+		<Name>  loop</Name>
+		<Usage>  loop, loop-control -- loop devices
+			#include linux/loop.h
+		</Usage>
+		<Description> The loop device is a block device that maps its data blocks not to a
+       		physical device such as a hard disk or optical disk drive, but to the
+      		blocks of a regular file in a filesystem or to another block device.
+       		This can be useful for example to provide a block device for a
+       		filesystem image stored in a file, so that it can be mounted with the
+       		mount(8) command.  You could do
+
+              $ dd if=/dev/zero of=file.img bs=1MiB count=10
+              $ sudo losetup /dev/loop4 file.img
+              $ sudo mkfs -t ext4 /dev/loop4
+              $ sudo mkdir /myloopdev
+              $ sudo mount /dev/loop4 /myloopdev
+
+       		See losetup(8) for another example.
+
+       		A transfer function can be specified for each loop device for
+       		encryption and decryption purposes.
+
+       		The following ioctl(2) operations are provided by the loop block
+       		device:
+
+       		LOOP_SET_FD
+              Associate the loop device with the open file whose file
+              descriptor is passed as the (third) ioctl(2) argument.
+
+       		LOOP_CLR_FD
+              Disassociate the loop device from any file descriptor.
+
+       		LOOP_SET_STATUS
+              Set the status of the loop device using the (third) ioctl(2)
+              argument.  This argument is a pointer to loop_info structure,
+              defined in linux/loop.h as:
+
+                  struct loop_info {
+                      int           lo_number;            /* ioctl r/o */
+                      dev_t         lo_device;            /* ioctl r/o */
+                      unsigned long lo_inode;             /* ioctl r/o */
+                      dev_t         lo_rdevice;           /* ioctl r/o */
+                      int           lo_offset;
+                      int           lo_encrypt_type;
+                      int           lo_encrypt_key_size;  /* ioctl w/o */
+                      int           lo_flags;             /* ioctl r/o */
+                      char          lo_name[LO_NAME_SIZE];
+                      unsigned char lo_encrypt_key[LO_KEY_SIZE];
+                                                          /* ioctl w/o */
+                      unsigned long lo_init[2];
+                      char          reserved[4];
+                  };
+
+              The encryption type (lo_encrypt_type) should be one of
+              LO_CRYPT_NONE, LO_CRYPT_XOR, LO_CRYPT_DES, LO_CRYPT_FISH2,
+              LO_CRYPT_BLOW, LO_CRYPT_CAST128, LO_CRYPT_IDEA,
+              LO_CRYPT_DUMMY, LO_CRYPT_SKIPJACK, or (since Linux 2.6.0)
+              LO_CRYPT_CRYPTOAPI.
+
+              The lo_flags field is a bit mask that can include zero or more
+              of the following:
+
+              LO_FLAGS_READ_ONLY
+                     The loopback device is read-only.
+
+              LO_FLAGS_AUTOCLEAR (since Linux 2.6.25)
+                     The loopback device will autodestruct on last close.
+
+              LO_FLAGS_PARTSCAN (since Linux 3.2)
+                     Allow automatic partition scanning.
+
+       		LOOP_GET_STATUS
+              Get the status of the loop device.  The (third) ioctl(2)
+              argument must be a pointer to a struct loop_info.
+
+      		LOOP_CHANGE_FD (since Linux 2.6.5)
+              Switch the backing store of the loop device to the new file
+              identified file descriptor specified in the (third) ioctl(2)
+              argument, which is an integer.  This operation is possible
+              only if the loop device is read-only and the new backing store
+              is the same size and type as the old backing store.
+
+       		LOOP_SET_CAPACITY (since Linux 2.6.30)
+              Resize a live loop device.  One can change the size of the
+              underlying backing store and then use this operation so that
+              the loop driver learns about the new size.  This operation
+              takes no argument.
+
+       		Since Linux 2.6, there are two new ioctl(2) operations:
+
+       		LOOP_SET_STATUS64, LOOP_GET_STATUS64
+              These are similar to LOOP_SET_STATUS and LOOP_GET_STATUS
+              described above but use the loop_info64 structure, which has
+              some additional fields and a larger range for some other
+              fields:
+
+                  struct loop_info64 {
+                      uint64_t lo_device;                   /* ioctl r/o */
+                      uint64_t lo_inode;                    /* ioctl r/o */
+                      uint64_t lo_rdevice;                  /* ioctl r/o */
+                      uint64_t lo_offset;
+                      uint64_t lo_sizelimit;/* bytes, 0 == max available */
+                      uint32_t lo_number;                   /* ioctl r/o */
+                      uint32_t lo_encrypt_type;
+                      uint32_t lo_encrypt_key_size;         /* ioctl w/o */
+                      uint32_t lo_flags;                    /* ioctl r/o */
+                      uint8_t  lo_file_name[LO_NAME_SIZE];
+                      uint8_t  lo_crypt_name[LO_NAME_SIZE];
+                      uint8_t  lo_encrypt_key[LO_KEY_SIZE]; /* ioctl w/o */
+                      uint64_t lo_init[2];
+                  };
+
+   			/dev/loop-control
+	      	
+	      	Since Linux 3.1, the kernel provides the /dev/loop-control device,
+	      	which permits an application to dynamically find a free device, and
+	       	to add and remove loop devices from the system.  To perform these
+	       	operations, one first opens /dev/loop-control and then employs one
+			of the following ioctl(2) operations:
+
+       		LOOP_CTL_GET_FREE
+              Allocate or find a free loop device for use.  On success, the
+              device number is returned as the result of the call.  This
+              operation takes no argument.
+
+       		LOOP_CTL_ADD
+              Add the new loop device whose device number is specified as a
+              long integer in the third ioctl(2) argument.  On success, the
+              device index is returned as the result of the call.  If the
+              device is already allocated, the call fails with the error
+              EEXIST.
+
+       		LOOP_CTL_REMOVE
+              Remove the loop device whose device number is specified as a
+              long integer in the third ioctl(2) argument.  On success, the
+              device number is returned as the result of the call.  If the
+              device is in use, the call fails with the error EBUSY.
+
+		</Description>
+		<OtherReferences> losetup(8), mount(8)
+		</OtherReferences>
+	</page>	
+
+	<!-- Files - term	 -->
+	<page id = "term">
+		<Type>Files</Type>
+
+		<Name>  term </Name>
+		<Usage>  term -- format of compiled term file.
+			term
+		</Usage>
+		<Description> STORAGE LOCATION
+			Compiled terminfo descriptions are placed under the directory
+			@TERMINFO@.  Two configurations are supported (when building
+			the ncurses libraries):
+
+			directory tree:
+			A two-level scheme is used to avoid a linear search of a huge
+			UNIX system directory: @TERMINFO@/c/name where name is the
+			name of the terminal, and c is the first character of
+			name. Thus, act4 can be found in the file @TERMINFO@/a/act4.
+			Synonyms for the same terminal are implemented by multiple
+			links to the same compiled file.
+
+			hashed database:
+			Using Berkeley database, two types of records are stored: the
+			terminfo data in the same format as stored in a directory tree
+			with the terminfo's primary name as a key, and records
+			containing only aliases pointing to the primary name.
+
+			If built to write hashed databases, ncurses can still read
+			terminfo databases organized as a directory tree, but cannot
+			write entries into the directory tree.  It can write (or
+			rewrite) entries in the hashed database.
+
+			ncurses distinguishes the two cases in the TERMINFO and
+			TERMINFO_DIRS environment variable by assuming a directory
+			tree for entries that correspond to an existing directory,
+			and hashed database otherwise.
+
+			STORAGE FORMAT
+			The format has been chosen so that it will be the same on all
+			hardware.  An 8 or more bit byte is assumed, but no
+			assumptions about byte ordering or sign extension are made.
+
+			The compiled file is created with the @TIC@ program, and read
+			by the routine setupterm.  The file is divided into six parts:
+			the header, terminal names, boolean flags, numbers, strings,
+			and string table.
+
+			The header section begins the file.  This section contains six
+			short integers in the format described below. These integers are:
+
+				(1) the magic number (octal 0432);
+
+				(2) the size, in bytes, of the names section;
+
+				(3) the number of bytes in the boolean section;
+
+				(4) the number of short integers in the numbers section;
+
+				(5) the number of offsets (short integers) in the strings
+				section;
+
+				(6) the size, in bytes, of the string table.
+
+			Short integers are stored in two 8-bit bytes.  The first byte
+			contains the least significant 8 bits of the value, and the second
+			byte contains the most significant 8 bits.  (Thus, the value
+			represented is 256*second+first.)  The value -1 is represented
+			by the two bytes 0377, 0377; other negative values are illegal.
+			This value generally means that the corresponding capability is
+			missing from this terminal.  Note that this format corresponds
+			to the hardware of the VAX and PDP-11 (that is, little-endian
+			machines). Machines where this does not correspond to the
+			hardware must read the integers as two bytes and compute the
+			little-endian value.
+
+			The terminal names section comes next.  It contains the first
+			line of the terminfo description, listing the various names for
+			the terminal, separated by the `|' character.  The section is
+			terminated with an ASCII NUL character.
+
+			The boolean flags have one byte for each flag. This byte is
+			either 0 or 1 as the flag is present or absent. The capabilities
+			are in the same order as the file term.h.
+
+			Between the boolean section and the number section, a null
+			byte will be inserted, if necessary, to ensure that the number
+			section begins on an even byte (this is a relic of the PDP-11's
+			word-addressed architecture, originally designed in to avoid IOT
+			traps induced by addressing a word on an odd byte boundary).
+			All short integers are aligned on a short word boundary.
+
+			The numbers section is similar to the flags section. Each
+			capability takes up two bytes, and is stored as a little-endian
+			short integer. If the value represented is -1, the capability
+			is taken to be missing.
+
+			The strings section is also similar. Each capability is stored as a
+			short integer, in the format above. A value of -1 means the
+			capability is missing. Otherwise, the value is taken as an offset
+			from the beginning of the string table. Special characters in ^X
+			or \c notation are stored in their interpreted form, not the
+			printing representation. Padding information $nn and parameter
+			information %x are stored intact in uninterpreted form.
+
+			The final section is the string table.  It contains all the values of
+			string capabilities referenced in the string section. Each string is
+			null terminated.
+
+			EXTENDED STORAGE FORMAT
+			The previous section describes the conventional terminfo binary
+			format.  With some minor variations of the offsets (see
+			PORTABILITY), the same binary format is used in all modern
+			UNIX systems.  Each system uses a predefined set of boolean,
+			number or string capabilities.
+
+			The ncurses libraries and applications support extended terminfo
+			binary format, allowing users to define capabilities which are
+			loaded at runtime.  This extension is made possible by using the
+			fact that the other implementations stop reading the terminfo data
+			when they have reached the end of the size given in the header.
+			ncurses checks the size, and if it exceeds that due to the
+			predefined data, continues to parse according to its own scheme.
+
+			First, it reads the extended header (5 short integers):
+
+				(1)  count of extended boolean capabilities
+
+				(2)  count of extended numeric capabilities
+
+				(3)  count of extended string capabilities
+
+				(4)  size of the extended string table in bytes.
+
+				(5)  last offset of the extended string table in bytes.
+
+			Using the counts and sizes, ncurses allocates arrays and reads
+			data for the extended capabilities in the same order as the
+			header information.
+
+			The extended string table contains values for string capabilities.
+			After the end of these values, it contains the names for each of
+			the extended capabilities in order, e.g., booleans, then numbers
+			and finally strings.
+
+			PORTABILITY
+			Note that it is possible for setupterm to expect a different set of
+			capabilities than are actually present in the file.  Either the
+			database may have been updated since setupterm has been
+			recompiled (resulting in extra unrecognized entries in the file)
+			or the program may have been recompiled more recently than
+			the database was updated (resulting in missing entries). The
+			routine setupterm must be prepared for both possibilities - this
+			is why the numbers and sizes are included.  Also, new
+			capabilities must always be added at the end of the lists of
+			boolean, number, and string capabilities.
+
+			Despite the consistent use of little-endian for numbers and the
+			otherwise self-describing format, it is not wise to count on
+			portability of binary terminfo entries between commercial UNIX
+			versions.  The problem is that there are at least three versions
+			of terminfo (under HP-UX, AIX, and OSF/1) which diverged from
+			System V terminfo after SVr1, and have added extension capabilities
+			to the string table that (in the binary format) collide with
+			System V and XSI Curses extensions.  See terminfo(5) for detailed
+			discussion of terminfo source compatibility issues.
+		</Description>
+		<OtherReferences>
+			curses(3X), terminfo(5).
+		</OtherReferences>
+	</page>
+	<!-- Superuser and System Administration Commands - sshd -->
+	<page id = "sshd">
+		<Type>SuperUser</Type>
+
+		<Name>  sshd </Name>
+		<Usage> sshd -- OpenSSH SSH daemon
+			sshd [-46DdeiqTt] [-b bits] [-C connection_spec]
+				[-c host_certificate_file] [-E log_file] [-f config_file]
+				[-g login_grace_time] [-h host_key_file] [-k key_gen_time]
+				[-o option] [-p port] [-u len]
+
+		</Usage>
+		<Description> sshd (OpenSSH Daemon) is the daemon program for ssh(1).
+			Together these programs replace rlogin and rsh, and provide
+			secure encrypted communications between two untrusted hosts
+			over an insecure network.
+
+			sshd listens for connections from clients.  It is normally started
+			at boot from /etc/rc.  It forks a new daemon for each incoming
+			connection. The forked daemons handle key exchange, encryption,
+			authentication, command execution, and data exchange.
+
+			sshd can be configured using command-line options or a
+			configuration file (by default sshd_config(5)); command-line
+			options override values specified in the configuration file.
+			sshd rereads its configuration file when it receives a hangup
+			signal, SIGHUP, by executing itself with the name and options
+			it was started with, e.g. /usr/sbin/sshd.
+
+			The options are as follows:
+
+			-4      Forces sshd to use IPv4 addresses only.
+
+			-6      Forces sshd to use IPv6 addresses only.
+
+			-b bits
+				    Specifies the number of bits in the ephemeral protocol version
+				    1 server key (default 1024).
+
+			-C connection_spec
+				Specify the connection parameters to use for the -T extended
+				test mode.  If provided, any Match directives in the configura‐
+				tion file that would apply to the specified user, host, and
+				address will be set before the configuration is written to
+				standard output.  The connection parameters are supplied as
+				keyword=value pairs.  The keywords are “user”, “host”, “laddr”,
+				“lport”, and “addr”.  All are required and may be supplied in
+				any order, either with multiple -C options or as a comma-sepa‐
+				rated list.
+
+			-c host_certificate_file
+				Specifies a path to a certificate file to identify sshd during
+				key exchange.  The certificate file must match a host key file
+				specified using the -h option or the HostKey configuration
+				directive.
+
+			-D  When this option is specified, sshd will not detach and does
+				not become a daemon.  This allows easy monitoring of sshd.
+
+			-d  Debug mode.  The server sends verbose debug output to
+				standard error, and does not put itself in the background.
+				The server also will not fork and will only process one
+				connection. This option is only intended for debugging
+				for the server.  Multiple -d options increase the debugging
+				level.  Maximum is 3.
+
+			-E log_file
+				Append debug logs to log_file instead of the system log.
+
+			-e  Write debug logs to standard error instead of the system log.
+
+			-f config_file
+				Specifies the name of the configuration file.  The default is
+				/etc/ssh/sshd_config.  sshd refuses to start if there is no
+				configuration file.
+
+			-g login_grace_time
+				Gives the grace time for clients to authenticate themselves
+				(default 120 seconds).  If the client fails to authenticate the
+				user within this many seconds, the server disconnects and
+				exits.  A value of zero indicates no limit.
+
+			-h host_key_file
+				Specifies a file from which a host key is read.  This option
+				must be given if sshd is not run as root (as the normal host
+				key files are normally not readable by anyone but root).  The
+				default is /etc/ssh/ssh_host_key for protocol version 1, and
+				/etc/ssh/ssh_host_dsa_key, /etc/ssh/ssh_host_ecdsa_key.
+				/etc/ssh/ssh_host_ed25519_key and /etc/ssh/ssh_host_rsa_key
+				for protocol version 2.  It is possible to have multiple host
+				key files for the different protocol versions and host key
+				algorithms.
+
+			-i  Specifies that sshd is being run from inetd(8).  If SSH proto‐
+				col 1 is enabled, sshd should not  normally be run from inetd
+				because it needs to generate the server key before it can
+				respond to the client, and this may take some time.  Clients
+				may have to wait too long if the key was regenerated every
+				time.
+
+			-k key_gen_time
+				Specifies how often the ephemeral protocol version 1 server key
+				is regenerated (default 3600 seconds, or one hour).  The moti‐
+				vation for regenerating the key fairly often is that the key is
+				not stored anywhere, and after about an hour it becomes impos‐
+				sible to recover the key for decrypting intercepted communica‐
+				tions even if the machine is cracked into or physically seized.
+				A value of zero indicates that the key will never be regener‐
+				ated.
+
+			-o option
+				Can be used to give options in the format used in the configu‐
+				ration file.  This is useful for specifying options for which
+				there is no separate command-line flag.  For full details of
+				the options, and their values, see sshd_config(5).
+
+			-p port
+				Specifies the port on which the server listens for connections
+				(default 22).  Multiple port options are permitted.  Ports
+				specified in the configuration file with the Port option are
+				ignored when a command-line port is specified.  Ports specified
+				using the ListenAddress option override command-line ports.
+
+			-q  Quiet mode.  Nothing is sent to the system log.  Normally the
+				beginning, authentication, and termination of each connection
+				is logged.
+
+			-T  Extended test mode.  Check the validity of the configuration
+				file, output the effective configuration to stdout and then
+				exit.  Optionally, Match rules may be applied by specifying the
+				connection parameters using one or more -C options.
+
+			-t  Test mode.  Only check the validity of the configuration file
+				and sanity of the keys.  This is useful for updating sshd reli‐
+				ably as configuration options may change.
+
+			-u len  
+				This option is used to specify the size of the field in the
+				utmp structure that holds the remote host name.  If the
+				resolved host name is longer than len, the dotted decimal value
+				will be used instead.  This allows hosts with very long host
+				names that overflow this field to still be uniquely identified.
+				Specifying -u0 indicates that only dotted decimal addresses
+				should be put into the utmp file.  -u0 may also be used to pre‐
+				vent sshd from making DNS requests unless the authentication
+				mechanism or configuration requires it.  Authentication mecha‐
+				nisms that may require DNS include RhostsRSAAuthentication,
+				HostbasedAuthentication, and using a from="pattern-list" option
+				in a key file.  Configuration options that require DNS include
+				using a USER@HOST pattern in AllowUsers or DenyUsers.
+		</Description>
+		<OtherReferences> scp(1), sftp(1), ssh(1), ssh-add(1), ssh-agent(1), ssh-keygen(1),
+     		ssh-keyscan(1), chroot(2), login.conf(5), moduli(5), sshd_config(5),
+     		inetd(8), sftp-server(8)
+
+		</OtherReferences>
+	</page>
+
+</LinuxManPage>
+

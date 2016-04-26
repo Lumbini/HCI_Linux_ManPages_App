@@ -1,0 +1,70 @@
+/**
+* Lumbini Parnas
+* Human Computer Interaction
+* Project 4
+* CSS Stylesheet for the GUI Components
+*
+* */
+
+#listViewOptions {
+    -fx-fill-color:#b3b3b3
+}
+
+.list-cell
+{
+    -fx-font: 10pt "Trebuchet MS"
+}
+
+#title {
+    -fx-font-size:50;
+    -fx-font-family: "Courier New";
+    -fx-font-weight: bold;
+}
+
+#optionsTitle {
+    -fx-font-size:30;
+    -fx-font-family: "Courier New";
+    -fx-font-weight: bold;
+}
+
+#background {
+    -fx-background-image: url("Linux_Penguin.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1000 625;
+    -fx-background-position: center center;
+    -fx-border-color: #4c4c4c;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+#optionsBackground {
+    -fx-background-image: url("Linux_Penguin_Options.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1000 625;
+    -fx-background-position: center center;
+    -fx-border-color: #4c4c4c;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+#pageBackground {
+    -fx-background-image: url("Linux_Penguin_Page.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1000 625;
+    -fx-background-position: center center;
+    -fx-border-color: #4c4c4c;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+.button {
+    -fx-background-color:#333333;
+    -fx-border-color:#4c4c4c;
+    -fx-font: 10pt "Trebuchet MS";
+    -fx-text-fill:#cccccc;
+    -fx-border-radius:2;
+}
+
+.button:hover {
+    -fx-border-color:#7f7f7f;
+}
+
+.button:pressed {
+    -fx-border-color:#777;
+}
